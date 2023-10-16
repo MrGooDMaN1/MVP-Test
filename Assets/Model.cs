@@ -1,28 +1,28 @@
 using System;
-using UnityEngine;
 
-public abstract class Model : MonoBehaviour
+public abstract class Model
 {
-    public event Action<int> ValueChanged;
-    public event Action<float> ValueChangingPercent;
+    public event Action<int, float> ValueChanged;
 
-    protected int _value = 0;
-    protected float _percent = 0;
-    protected float _maxBalance = 300f;
+    private int _value = 0;
+    private float _percent = 0;
+    private float _maxBalance = 300f;
 
-    public int GetValue()
+    public int Value 
     {
-        return _value;
+        get
+        {
+            return _value;
+        }
+        protected set
+        {
+            _value = value;
+            _percent = _value / _maxBalance;
+            ValueChanged?.Invoke(_value, _percent);
+        }
     }
 
-    public virtual void AddValue(int amount)
-    {
-        ValueChanged?.Invoke(_value);
-        ValueChangingPercent?.Invoke(_percent);
-    }
-    public virtual void SubtractValue(int amount)
-    {
-        ValueChanged?.Invoke(_value);
-        ValueChangingPercent?.Invoke(_percent);
-    }
+    public float MaxBalance { get { return _maxBalance; } }
+
+    public abstract void ChangeValue(int amount);
 }

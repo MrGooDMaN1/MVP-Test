@@ -1,19 +1,18 @@
 using System;
 using UnityEngine;
 
-public abstract class Presenter : MonoBehaviour
+public abstract class Presenter
 {
     protected Model _model;
     protected View _view;
 
     public Presenter(Model model, View view)
     {
-        this._model = model;
-        this._view = view;
+        _model = model;
+        _view = view;
         model.ValueChanged += OnValueChanged;
-        model.ValueChangingPercent += OnValueChangingPercent;
     }
 
-    public abstract void OnValueChanged(int value);
-    public abstract void OnValueChangingPercent(float percent);
+    public abstract void OnValueChanged(int value, float percent);
+
 }

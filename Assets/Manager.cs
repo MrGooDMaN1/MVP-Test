@@ -1,34 +1,42 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
     [SerializeField] private ViewType _viewType;
-    [SerializeField] private GameObject _numberSliderObject;
-    [SerializeField] private Slider _numberSlider;
-    [SerializeField] private Text _numberText;
-    private int _currentValue = 0;
+    [SerializeField] private Slider _slider;
+    [SerializeField] private Text _text;
 
-    public Button _addButton;
-    public Button _subtractButton;
+    [SerializeField] private Button _addButton;
+    [SerializeField] private Button _subtractButton;
 
     private void Start()
     {
-        Model walletModel = new WalletModel();
-        View walletView = new WalletView(walletModel, _numberText, _numberSlider);
-        Presenter walletPresenter = new WalletPresenter(walletModel, walletView);
+        Model model = new WalletModel();
 
-        if (_viewType == ViewType.Number)
+        View view;
+        _slider.gameObject.SetActive(false);
+        _text.enabled = false;
+        switch (_viewType)
         {
-            _numberSliderObject.SetActive(false);
+            case ViewType.Slider:
+                {
+                    _slider.gameObject.SetActive(true);
+                    view = new WalletViewSlider(_slider);
+                    break;
+                }
+            default:
+                {
+                    _text.enabled = true;
+                    view = new WalletView(_text);
+                    break;
+                }
         }
-        if (_viewType == ViewType.Slider)
-        {
-            _numberText.enabled = false;
-        }
-        _addButton.onClick.AddListener(() => walletModel.AddValue(15));
-        _subtractButton.onClick.AddListener(() => walletModel.SubtractValue(6));
+
+        Presenter walletPresenter = new WalletPresenter(model, view);
+
+        _addButton.onClick.AddListener(() => model.ChangeValue(15));
+        _subtractButton.onClick.AddListener(() => model.ChangeValue(-6));
     }
 
     private enum ViewType

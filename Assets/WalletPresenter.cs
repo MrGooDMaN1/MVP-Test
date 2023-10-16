@@ -5,13 +5,8 @@ public class WalletPresenter : Presenter
 {
     public WalletPresenter (Model model, View view) : base (model, view) { }
 
-    public override void OnValueChanged(int value)
+    public override void OnValueChanged(int value, float percent)
     {
-        _view.OnValueChanged(value);
-    }
-
-    public override void OnValueChangingPercent(float percent)
-    {
-        _view.OnValueChangingPercent(percent);
+        _view.OnValueChanged(value, percent);
     }
 }
