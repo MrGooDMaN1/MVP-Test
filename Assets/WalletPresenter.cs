@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class WalletPresenter : Presenter
@@ -11,5 +10,10 @@ public class WalletPresenter : Presenter
     public override void OnValueChanged(int value)
     {
         _view.OnValueChanged(value);
+    }
+
+    public override void OnValueChangingPercent(float percent)
+    {
+        _view.OnValueChangingPercent(percent);
     }
 }

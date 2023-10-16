@@ -11,7 +11,9 @@ public abstract class Presenter : MonoBehaviour
         this._model = model;
         this._view = view;
         model.ValueChanged += OnValueChanged;
+        model.ValueChangingPercent += OnValueChangingPercent;
     }
 
     public abstract void OnValueChanged(int value);
+    public abstract void OnValueChangingPercent(float percent);
 }
